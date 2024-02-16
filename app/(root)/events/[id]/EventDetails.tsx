@@ -9,16 +9,18 @@ const EventDetails = ({ data }: any) => {
       </h2>
       <div>
         <span className="bg-emerald-100 text-xs px-4 font-bold py-1 rounded-full text-emerald-500 ">
-          FREE
+          {data.price === "0" ? "Free" : `$${data.price}`}
         </span>
         <span className="bg-gray-200 text-xs px-4 font-bold py-1 rounded-full text-gray-500 ms-2">
-          Development
+          {data.category}
         </span>
       </div>
 
       <div className="flex items-center gap-1 mt-2">
         <PiCalendar className="text-3xl" />
-        <p>{data.startEvent}</p>
+        <p>
+          {data.startEvent} - {data.endEvent}
+        </p>
       </div>
       <div className="flex items-center gap-1 mb-2">
         <PiMapPin className="text-3xl" />

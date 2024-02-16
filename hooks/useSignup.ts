@@ -1,15 +1,16 @@
 "use client";
 
 import { useState } from "react";
-import { redirect } from "next/navigation";
 
 export const useSignup = () => {
-  const [error, setError] = useState(null);
+  const [succesSignUp, setSuccesSignUp] = useState(false);
+  const [error, setError] = useState(false);
+  const [errMessage, setErrMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   const signup = async (username: any, email: any, password: any) => {
     setIsLoading(true);
-    setError(null);
+    setError(false);
 
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_API}/auth/register`,
@@ -21,15 +22,20 @@ export const useSignup = () => {
         body: JSON.stringify({ username, email, password }),
       }
     );
+    const json = await response.json();
+    console.log(json);
 
     if (!response.ok) {
       setIsLoading(false);
-      setError(null);
+      setError(true);
+      setErrMessage(json.message);
     }
     if (response.ok) {
-      redirect("/login");
+      setIsLoading(false);
+      setErrMessage("");
+      setSuccesSignUp(true);
     }
   };
 
-  return { signup, isLoading, error };
+  return { signup, isLoading, error, errMessage, succesSignUp };
 };

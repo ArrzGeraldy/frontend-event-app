@@ -1,5 +1,5 @@
 "use client";
-import { createContext, useEffect, useReducer } from "react";
+import { createContext, useEffect, useReducer, useState } from "react";
 
 export const AuthContext = createContext(null);
 
@@ -18,16 +18,23 @@ export const AuthContextProvider = ({ children }: any) => {
   const [state, dispatch] = useReducer(authReducer, {
     user: null,
   });
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const user = localStorage.getItem("token");
-
     if (user) {
       dispatch({ type: "LOGIN", payload: user });
     }
+    setIsLoading(false);
   }, []);
 
-  console.log("AuthContext state:", state);
+  if (isLoading) {
+    return (
+      <div className="w-full h-screen flex items-center justify-center my-auto">
+        <div className="custom-loader"></div>
+      </div>
+    ); // Tampilkan loading jika masih memuat
+  }
 
   return (
     <AuthContext.Provider value={{ ...state, dispatch }}>

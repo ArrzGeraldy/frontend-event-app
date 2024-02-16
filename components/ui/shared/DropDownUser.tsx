@@ -11,14 +11,15 @@ import {
 import { PiCaretDown } from "react-icons/pi";
 import Link from "next/link";
 import { useLogout } from "@/hooks/useLogout";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 const DropDownUser = () => {
+  const router = useRouter();
   const { logout } = useLogout();
 
   const handleLogout = () => {
     logout();
-    redirect("/");
+    return router.refresh();
   };
 
   return (

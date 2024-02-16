@@ -6,7 +6,7 @@ const Desktop = () => {
       <Link href={"/"} className="text-lg">
         Home
       </Link>
-      <Link href={"/"} className="text-lg">
+      <Link href={"#event"} className="text-lg">
         Event
       </Link>
       <Link href={"/"} className="text-lg">

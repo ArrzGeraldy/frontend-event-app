@@ -2,16 +2,24 @@
 @tailwind components;
 @tailwind utilities;
 
-.hero__height {
-  height: calc(100vh - 80px);
-}
-.text-height {
-  height: calc(80vh - 80px);
+#event {
+  padding-top: 6.5rem;
 }
 
 .indigo_bg {
   background: #6366f1;
   transition: ease 0.3s;
+}
+
+.hero__height {
+  height: calc(100vh - 80px);
+}
+
+.text-red-hero {
+  color: rgba(255, 83, 71, 255);
+}
+.text-blue-hero {
+  color: rgba(71, 77, 155, 255);
 }
 
 .indigo_bg:hover {
@@ -52,11 +60,187 @@
   opacity: 0;
   transform: translateX(200px);
 }
+
 @keyframes s3 {
   to {
     transform: rotate(1turn);
   }
 }
+
+/* my css */
+.headroom {
+  position: relative;
+  z-index: 99999;
+}
+
+.img__hero-container {
+  animation-name: fadeIn;
+  animation-duration: 2s;
+  position: relative;
+  height: calc(100vh - 80px);
+}
+
+.hero__content {
+  animation: fadeInUpBig;
+  animation-duration: 2s;
+}
+
+.img__hero {
+  position: relative;
+  right: 10px;
+  z-index: 1;
+}
+.round {
+  position: absolute;
+  height: 300px;
+  width: 300px;
+  left: 0;
+  bottom: -120px;
+  border-radius: 50%;
+  border: 60px solid #e5e7eb;
+}
+.round-2 {
+  position: absolute;
+  height: 200px;
+  width: 200px;
+  top: 0;
+  border-radius: 50%;
+  border: 60px solid #e5e7eb;
+}
+
+.triangle {
+  position: absolute;
+  top: 20px;
+  left: 30px;
+  width: 200px;
+  height: 200px;
+  transform: rotate(60deg);
+}
+
+.line-left {
+  height: 300px;
+  width: 3px;
+  background-color: #e5e7eb;
+  transform-origin: bottom left;
+  transform: rotate(60deg);
+}
+.line-right {
+  height: 300px;
+  width: 3px;
+  background-color: #e5e7eb;
+  transform-origin: top left;
+  transform: rotate(-59deg);
+}
+.line-bottom {
+  height: 300px;
+  width: 3px;
+  background-color: #e5e7eb;
+  transform: translateX(2px);
+}
+
+.triangle-2 {
+  position: absolute;
+  top: 60px;
+  left: 50px;
+  width: 200px;
+  height: 200px;
+  transform: rotate(60deg);
+}
+
+.touch {
+  position: absolute;
+  width: 80px;
+  height: 60px;
+  bottom: 90px;
+
+  right: 0px;
+  background: #9ca3af;
+}
+.touch-2 {
+  position: absolute;
+  width: 80px;
+  height: 60px;
+  bottom: 60px;
+  right: 10px;
+  background: #d1d5db;
+  opacity: 80%;
+}
+
+/* responsive */
+
+@media screen and (max-width: 1024px) {
+  .hero__container {
+    display: flex;
+    flex-direction: column;
+    overflow-y: hidden;
+    width: 100%;
+    padding: 2.5rem 1.5rem 0;
+    justify-content: space-around;
+  }
+  .hero__height {
+    height: auto;
+  }
+  .img__hero-container {
+    height: 100%;
+    width: 100%;
+    justify-content: center;
+    align-items: end;
+  }
+  .img__hero {
+    animation: fadeInUpBig;
+    animation-duration: 2s;
+    position: static;
+  }
+  .hero__content {
+    gap: 1rem;
+    animation-name: fadeIn;
+    animation-duration: 2s;
+    width: 90%;
+  }
+
+  .round-2 {
+    right: 0;
+  }
+}
+@media screen and (max-width: 640px) {
+  .hero__container {
+    display: flex;
+    flex-direction: column;
+    overflow-y: hidden;
+    width: 100%;
+    padding: 2.5rem 1.5rem 0;
+    justify-content: space-around;
+  }
+  .hero__height {
+    height: auto;
+  }
+  .img__hero-container {
+    height: 60vh;
+    width: 100%;
+    justify-content: center;
+  }
+  .img__hero {
+    position: static;
+    width: 300px;
+    animation: fadeInUpBig;
+    animation-duration: 2s;
+  }
+  .hero__content {
+    position: relative;
+    z-index: 1;
+    animation-name: fadeIn;
+    animation-duration: 2s;
+    width: 90%;
+  }
+
+  .round-2 {
+    right: -6rem;
+    top: -8rem;
+  }
+}
+
+/* responsive */
+/* end */
 
 @layer base {
   :root {

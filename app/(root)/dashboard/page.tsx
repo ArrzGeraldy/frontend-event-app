@@ -1,17 +1,22 @@
 "use client";
+import AsideItems from "@/components/DashboardContent/Aside/AsideItems";
 import EventsLIstUser from "@/components/DashboardContent/EventsLIstUser";
 import Profile from "@/components/DashboardContent/Profile";
 import { useAuthContext } from "@/hooks/useAuthContext";
+import { redirect } from "next/navigation";
 import { useEffect, useState } from "react";
-import { PiNotepad, PiUserCircle } from "react-icons/pi";
 
 const page = () => {
   const [active, setActive] = useState("profile");
   const [eventsUser, setEventsUser] = useState();
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [isdeleted, setIsdeleted] = useState("");
+  const { user } = useAuthContext();
 
   const fetchUserEvents = async () => {
     const user = localStorage.getItem("token");
-    console.log(user);
     const response = await fetch(`${process.env.NEXT_PUBLIC_API}/user/events`, {
       method: "GET",
       headers: {
@@ -20,43 +25,49 @@ const page = () => {
     });
     const json = await response.json();
     setEventsUser(json.data);
-    console.log(json);
+  };
+
+  const detailUser = async () => {
+    const user = localStorage.getItem("token");
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API}/user`, {
+      method: "GET",
+      headers: { Authorization: `Bearer ${user}` },
+    });
+
+    const { data } = await response.json();
+    setUsername(data.username);
+    setEmail(data.email);
   };
 
   useEffect(() => {
+    if (!user) redirect("/");
+    detailUser();
     fetchUserEvents();
-  }, []);
+  }, [isdeleted, user]);
   return (
     <section className="bg-gray-50 flex gap-4">
-      <aside className="w-1/5 h-screen bg-white border-e-2 px-8 py-4 flex flex-col gap-4 text-sm">
-        <h4 className="font-semibold text-2xl">Welcome</h4>
-        <button
-          onClick={() => setActive("profile")}
-          className={
-            active == "profile"
-              ? "bg-black text-white text-start px-4 py-2 rounded-lg flex gap-2 items-center"
-              : "text-start px-4 py-2 rounded-lg flex gap-2 items-center hover:bg-gray-200 transition-all"
-          }
-        >
-          <PiUserCircle className="text-3xl" />
-          Profile
-        </button>
-        <button
-          onClick={() => setActive("myEvents")}
-          className={
-            active == "myEvents"
-              ? "bg-black text-white text-start px-4 py-2 rounded-lg flex gap-2 items-center"
-              : "text-start px-4 py-2 rounded-lg flex gap-2 items-center hover:bg-gray-200 transition-all"
-          }
-        >
-          <PiNotepad size={32} className="text-3xl" />
-          My events
-        </button>
+      <aside className="fixed z-10 bottom-0 w-screen lg:static bg-white border border-t-gray-400 lg:border-t-0 lg:w-1/5">
+        <AsideItems active={active} setActive={setActive} />
       </aside>
+
       <article className="w-full">
         <div className="w-11/12 mx-auto">
-          {active === "profile" && <Profile />}
-          {active === "myEvents" && <EventsLIstUser eventsUser={eventsUser} />}
+          {active === "profile" && (
+            <Profile
+              username={username}
+              email={email}
+              setUsername={setUsername}
+            />
+          )}
+          {active === "myEvents" && (
+            <EventsLIstUser
+              eventsUser={eventsUser}
+              isLoading={isLoading}
+              setIsLoading={setIsLoading}
+              isdeleted={isdeleted}
+              setIsdeleted={setIsdeleted}
+            />
+          )}
         </div>
       </article>
     </section>

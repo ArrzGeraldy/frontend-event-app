@@ -11,7 +11,7 @@ const page = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { signup, error, isLoading } = useSignup();
+  const { signup, error, isLoading, errMessage, succesSignUp } = useSignup();
   const { user } = useAuthContext();
 
   const register = async (e: { preventDefault: () => void }) => {
@@ -36,6 +36,16 @@ const page = () => {
             onSubmit={register}
             className="gap-4 flex flex-col w-5/6 mx-auto mt-4 text-sm"
           >
+            {succesSignUp && (
+              <div className="bg-green-200 text-green-900 text-center text-sm py-2 my-2">
+                Success Register
+              </div>
+            )}
+            {error && (
+              <div className="bg-red-200 text-red-900 text-center text-sm py-2 my-2">
+                {errMessage}
+              </div>
+            )}
             <div className="flex flex-col gap-2">
               <label htmlFor="email">Username</label>
               <input
@@ -53,7 +63,7 @@ const page = () => {
               password={password}
               setPassword={setPassword}
             />
-            <Button>Sign up</Button>
+            <Button disabled={isLoading}>Sign up</Button>
           </form>
           <div className="flex justify-center mt-8">
             <p className="text-sm text-gray-500">

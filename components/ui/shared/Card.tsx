@@ -1,9 +1,13 @@
 import Link from "next/link";
 interface Ievent {
   id: string;
+  event_id: string;
   image: object;
   title: string;
+  price: string;
+  category: string;
   author: object;
+  location: string;
 }
 
 const Card = ({ event }: Ievent | any) => {
@@ -21,15 +25,15 @@ const Card = ({ event }: Ievent | any) => {
       ></Link>
       <div className="px-4 py-4">
         <span className="bg-emerald-100 text-xs px-4 font-bold py-1 rounded-full text-emerald-500 ">
-          FREE
+          {event.price === "0" ? "Free" : `$${event.price}`}
         </span>
         <span className="bg-gray-200 text-xs px-4 font-bold py-1 rounded-full text-gray-500 ms-2">
-          Development
+          {event.category}
         </span>
-        <p className="text-gray-500 text-sm mt-4">Fri, Des 15, 8:30 AM</p>
+        <p className="text-gray-500 text-sm mt-4">{event.startEvent}</p>
         <div className="mt-4 flex flex-col gap-4">
           <h4 className="text-xl font-bold">{event.title}</h4>
-          <h4 className="text-sm">{event.author.username} | JS Mastery</h4>
+          <h4 className="text-sm">{event.author.username} | Sociale Event</h4>
         </div>
       </div>
     </div>

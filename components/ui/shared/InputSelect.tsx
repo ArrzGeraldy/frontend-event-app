@@ -1,11 +1,18 @@
 import { useEffect, useState } from "react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 interface InputSelectProps {
-  value: string;
+  style: string;
   setValue: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const InputSelect = ({ value, setValue }: InputSelectProps) => {
+const InputSelect = ({ setValue, style }: InputSelectProps) => {
   const [categories, setCategories] = useState([]);
   const getCategory = async () => {
     const response = await fetch(`${process.env.NEXT_PUBLIC_API}/category`);
@@ -16,17 +23,19 @@ const InputSelect = ({ value, setValue }: InputSelectProps) => {
     getCategory();
   }, []);
   return (
-    <select
-      value={value}
-      onChange={(e) => setValue(e.target.value)}
-      className="border-2 px-3 bg-gray-50 py-2 rounded-md focus:outline-none focus:ring-1 focus:ring-gray-400 text-sm md:text-md"
-    >
-      {categories.map((category: any, i) => (
-        <option key={i} value={category.category} className="">
-          {category.category}
-        </option>
-      ))}
-    </select>
+    <Select onValueChange={(value) => setValue(value)}>
+      <SelectTrigger className={style}>
+        <SelectValue placeholder="Category" />
+      </SelectTrigger>
+      <SelectContent>
+        <SelectItem value="all">All</SelectItem>
+        {categories.map((category: any, i) => (
+          <SelectItem key={i} value={category.category}>
+            {category.category}
+          </SelectItem>
+        ))}
+      </SelectContent>
+    </Select>
   );
 };
 

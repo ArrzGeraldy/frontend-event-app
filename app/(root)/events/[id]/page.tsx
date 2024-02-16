@@ -1,4 +1,3 @@
-import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import React from "react";
 import EventDetails from "./EventDetails";
@@ -8,6 +7,7 @@ const page = async ({ params }: any) => {
   const response = await fetch(`${process.env.NEXT_PUBLIC_API}/event/${id}`);
   const result = await response.json();
   const { data } = result;
+  console.log(data);
   return (
     <section>
       <article className="w-5/6 mx-auto py-12 flex flex-col md:flex-row gap-4 md:gap-8">

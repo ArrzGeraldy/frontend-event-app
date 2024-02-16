@@ -1,7 +1,6 @@
-import { Button } from "@/components/ui/button";
-import Image from "next/image";
+"use client";
 import EventContainer from "@/components/HomeComponent/EventContainer";
-import Hero from "@/components/HomeComponent/Hero";
+import Hero from "@/components/HomeComponent/Hero/Hero";
 
 const Home = () => {
   return (

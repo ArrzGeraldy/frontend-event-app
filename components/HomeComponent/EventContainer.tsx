@@ -7,14 +7,16 @@ import HeadEventList from "@/components/HomeComponent/HeadEventList";
 const EventContainer = () => {
   const [events, setEvents] = useState([]);
   const [search, setSearch] = useState("");
+  const [category, setCategory] = useState("");
   const [page, setPage] = useState(1);
   const [isNextPage, setIsNextPage] = useState();
   const [lastPage, setlastPage] = useState();
   let data;
 
   const fetchData = async () => {
+    if (category === "all") setCategory("");
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API}/event?page=${page}&limit=6&search=${search}`
+      `${process.env.NEXT_PUBLIC_API}/event?page=${page}&limit=6&search=${search}&category=${category}`
     );
     const responseData = await response.json();
     data = responseData.data;
@@ -27,23 +29,21 @@ const EventContainer = () => {
   const handleNextPage = () => {
     if (!isNextPage) return;
     setPage((prev) => prev + 1);
-    console.log(page);
   };
 
   const handlePrevPage = () => {
     if (page <= 1) return;
     setPage((prev) => prev - 1);
-    console.log(page);
   };
 
   useEffect(() => {
     fetchData();
-  }, [search, page]);
+  }, [search, page, category]);
 
   return (
-    <section className="w-5/6 mx-auto flex flex-col gap-4 mt-24">
-      <div className="text-3xl font-bold mb-0 ">Event List.</div>
-      <HeadEventList setSearch={setSearch} />
+    <section className="w-5/6 mx-auto flex flex-col gap-4" id="event">
+      <div className="text-3xl font-bold mb-0">Event List.</div>
+      <HeadEventList setSearch={setSearch} setCategory={setCategory} />
       <EventList events={events} />
       <Pagination
         page={page}

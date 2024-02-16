@@ -1,22 +1,21 @@
+"use client";
 import Link from "next/link";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import InputSelect from "../ui/shared/InputSelect";
+import { useAuthContext } from "@/hooks/useAuthContext";
 
 interface ISetSearch {
+  setCategory: React.Dispatch<React.SetStateAction<string>>;
   setSearch: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const HeadEventList = ({ setSearch }: ISetSearch) => {
+const HeadEventList = ({ setSearch, setCategory }: ISetSearch) => {
+  const { user } = useAuthContext();
+  const url = user ? "/events/create" : "/login";
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 mb-4 w-full gap-4 gap-x-6">
-      <Link href={"/events/create"} className="md:col-span-2">
+      <Link href={url} className="md:col-span-2 w-fit">
         <Button className="bg-indigo-600 rounded-full w-fit text-xs">
           Create Your Event
         </Button>
@@ -26,16 +25,14 @@ const HeadEventList = ({ setSearch }: ISetSearch) => {
         className="bg-gray-100 rounded-full py-2 px-4 md:py-6 focus:outline-none focus:ring-2 focus:ring-indigo-600"
         placeholder="Search"
       />
-      <Select>
-        <SelectTrigger className=" bg-gray-100 rounded-full py-2 px-4 md:py-6 focus:outline-none focus:ring-2 focus:ring-indigo-600 ">
-          <SelectValue placeholder="Theme" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectItem value="light">Light</SelectItem>
-          <SelectItem value="dark">Dark</SelectItem>
-          <SelectItem value="system">System</SelectItem>
-        </SelectContent>
-      </Select>
+      <div className="flex flex-col gap-2">
+        <InputSelect
+          setValue={setCategory}
+          style={
+            "bg-gray-100 rounded-full py-2 px-4 md:py-6 focus:outline-none focus:ring-2 focus:ring-indigo-600 w-full "
+          }
+        />
+      </div>
     </div>
   );
 };

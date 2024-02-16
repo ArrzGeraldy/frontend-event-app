@@ -1,6 +1,5 @@
 "use client";
-import { redirect } from "next/navigation";
-import { SetStateAction, useState } from "react";
+import { SetStateAction, useEffect, useState } from "react";
 import { PiCloudArrowUp } from "react-icons/pi";
 import Image from "next/image";
 import { useAuthContext } from "@/hooks/useAuthContext";
@@ -9,7 +8,9 @@ import InputSelect from "@/components/ui/shared/InputSelect";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
-import { isValidCreateEvent } from "@/app/libs/validInput";
+import { useCreateEvent } from "@/hooks/useCreateEvent";
+import { redirect } from "next/navigation";
+import InputFile from "@/components/CreateEvent/InputFile";
 
 const page = () => {
   const [title, setTitle] = useState("");
@@ -25,18 +26,15 @@ const page = () => {
   const [endTime, setEndTime] = useState("");
   const [free, setFree] = useState(false);
   const { user } = useAuthContext();
-  const startEvent = startDate + " " + startTime;
-  const endEvent = endDate + " " + endTime;
-  const isValid = isValidCreateEvent(
-    title,
-    category,
-    startEvent,
-    endEvent,
-    price,
-    file,
-    desc,
-    location
-  );
+  const startEvent = startDate + ", " + startTime;
+  const endEvent = endDate + ", " + endTime;
+  const { create, isError, isLoading, isSuccess } = useCreateEvent();
+  const scrollTop = () => {
+    scrollTo({
+      behavior: "auto",
+      top: 0,
+    });
+  };
 
   const handleFree = () => {
     setPrice("0");
@@ -45,27 +43,41 @@ const page = () => {
 
   const createEvent = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
-    const formData = new FormData();
-    formData.append("title", title);
-    formData.append("desc", desc);
-    formData.append("category", category);
-    formData.append("location", location);
-    formData.append("startEvent", startEvent);
-    formData.append("endEvent", endEvent);
-    formData.append("price", price);
-    formData.append("image", file);
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API}/event`, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${user}`,
-      },
-      body: formData,
-    });
-    const data = await response.json();
-    console.log(data);
+    await create(
+      title,
+      desc,
+      category,
+      location,
+      startEvent,
+      endEvent,
+      price,
+      file,
+      user
+    );
   };
 
-  if (!user) redirect("/login");
+  const handleSuccessResponse = () => {
+    setTitle("");
+    setDesc("");
+    setTempImage("");
+    setLocation("");
+    setFile("");
+    setPrice("");
+    setCategory("");
+    setStartDate("");
+    setStartTime("");
+    setEndDate("");
+    setEndTime("");
+    setFree(false);
+    // Atau jika Anda ingin menggabungkan beberapa setState menjadi satu:
+    // setFormData({ title: "", desc: "", tempImage: "", ... });
+  };
+
+  useEffect(() => {
+    if (isSuccess) handleSuccessResponse();
+    if (!user) redirect("/login");
+    scrollTop();
+  }, [isError, isSuccess, user]);
 
   return (
     <>
@@ -77,6 +89,17 @@ const page = () => {
         onSubmit={createEvent}
         className="w-3/4 mx-auto text-sm lg:text-lg"
       >
+        {isError && (
+          <div className="bg-red-200 text-red-900 text-sm py-4 px-4 rounded my-2">
+            Failed create event
+          </div>
+        )}
+        {isSuccess && (
+          <div className="bg-green-200 text-green-900 text-sm py-4 px-4 rounded my-2">
+            Success create event
+          </div>
+        )}
+
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* title */}
           <InputText
@@ -88,7 +111,12 @@ const page = () => {
           {/* category */}
           <div className="flex flex-col gap-2">
             <label htmlFor="">Category</label>
-            <InputSelect value={category} setValue={setCategory} />
+            <InputSelect
+              setValue={setCategory}
+              style={
+                "border-2 px-3 bg-gray-50 py-2 rounded-md focus:outline-none focus:ring-1 focus:ring-gray-400 text-sm md:text-md"
+              }
+            />
           </div>
           {/* start event */}
           <div className="flex flex-col gap-2">
@@ -177,56 +205,28 @@ const page = () => {
                 />
               </div>
               <div className="flex items-center gap-1 absolute top-12 right-4">
-                <Checkbox className="" onCheckedChange={handleFree} />
+                <Checkbox
+                  className=""
+                  onCheckedChange={handleFree}
+                  checked={free}
+                />
                 <Label htmlFor="email">It's Free</Label>
               </div>
             </div>
           </div>
           {/* image */}
           <div className="w-full border-2 rounded-md h-80 bg-gray-50 ">
-            <div className="flex flex-col items-center justify-center h-full">
-              {tempImage.length > 0 ? (
-                <Image
-                  width={500}
-                  height={200}
-                  src={tempImage}
-                  alt="..."
-                  className="h-80 w-full object-cover object-center rounded-md"
-                />
-              ) : (
-                <div className="flex flex-col items-center justify-center h-full">
-                  <PiCloudArrowUp
-                    size={80}
-                    className="cursor-pointer text-gray-600"
-                    onClick={() =>
-                      document.getElementById("file-uploader")?.click()
-                    }
-                  />
-                  <h4 className="">Upload your image</h4>
-                </div>
-              )}
-
-              <input
-                type="file"
-                name="image"
-                accept="image/*"
-                id="file-uploader"
-                className="hidden"
-                onChange={({ target: { files } }) => {
-                  if (files && files[0]) {
-                    setFile(files[0]);
-                    setTempImage(URL.createObjectURL(files[0]));
-                  }
-                }}
-              />
-            </div>
+            <InputFile
+              setFile={setFile}
+              setTempImage={setTempImage}
+              tempImage={tempImage}
+            />
           </div>
         </div>
         <div className="flex gap-4 mt-6">
           <Button
-            className={
-              isValid ? "" : "bg-gray-500 hover:bg-gray-500 cursor-not-allowed"
-            }
+            disabled={isLoading}
+            className={isLoading ? `cursor-wait` : ``}
           >
             Submit
           </Button>

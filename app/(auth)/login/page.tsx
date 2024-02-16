@@ -18,7 +18,7 @@ const page = () => {
     await login(email, password);
   };
 
-  if (user) redirect("/");
+  if (user) return redirect("/");
 
   return (
     <div className="relative">
@@ -37,15 +37,20 @@ const page = () => {
           </p>
           <form
             onSubmit={handleLogin}
-            className="gap-4 flex flex-col w-5/6 mx-auto mt-4"
+            className="gap-4 flex flex-col w-5/6 px-2 mx-auto mt-4"
           >
+            {error && (
+              <div className="bg-red-200 text-red-900 text-center text-sm py-2 my-2">
+                Invalid email or password
+              </div>
+            )}
             <InputForm
               email={email}
               setEmail={setEmail}
               password={password}
               setPassword={setPassword}
             />
-            <Button>Login</Button>
+            <Button disabled={isLoading}>Login</Button>
           </form>
           <div className="flex justify-center mt-8">
             <p className="text-xs text-gray-500">
