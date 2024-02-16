@@ -1,11 +1,14 @@
 "use client";
 import { useState } from "react";
 import { useAuthContext } from "./useAuthContext";
+interface AuthContextType {
+  dispatch: (action: any) => void;
+}
 
 export const useLogin = () => {
   const [error, setError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const { dispatch } = useAuthContext();
+  const { dispatch } = useAuthContext() as AuthContextType;
 
   const login = async (email: any, password: any) => {
     const response = await fetch(`${process.env.NEXT_PUBLIC_API}/auth/login`, {

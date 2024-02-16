@@ -1,7 +1,10 @@
 import { useAuthContext } from "./useAuthContext";
+interface AuthContextType {
+  dispatch: (action: any) => void;
+}
 
 export const useLogout = () => {
-  const { dispatch } = useAuthContext();
+  const { dispatch } = useAuthContext() as AuthContextType;
 
   const logout = () => {
     localStorage.removeItem("token");

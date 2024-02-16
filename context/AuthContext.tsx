@@ -1,9 +1,16 @@
 "use client";
 import { createContext, useEffect, useReducer, useState } from "react";
 
+// Definisikan tipe untuk children
+interface AuthContextProviderProps {
+  children: React.ReactNode;
+}
+
+// Definisikan tipe untuk aksi
+type AuthAction = { type: string; payload?: any };
 export const AuthContext = createContext(null);
 
-export const authReducer = (state: any, action: any) => {
+export const authReducer = (state: any, action: AuthAction) => {
   switch (action.type) {
     case "LOGIN":
       return { user: action.payload };
@@ -14,7 +21,9 @@ export const authReducer = (state: any, action: any) => {
   }
 };
 
-export const AuthContextProvider = ({ children }: any) => {
+export const AuthContextProvider: React.FC<AuthContextProviderProps> = ({
+  children,
+}) => {
   const [state, dispatch] = useReducer(authReducer, {
     user: null,
   });
