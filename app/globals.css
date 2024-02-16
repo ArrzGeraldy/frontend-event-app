@@ -192,7 +192,10 @@
     position: static;
   }
   .hero__content {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
     gap: 1rem;
+    text-align: center;
     animation-name: fadeIn;
     animation-duration: 2s;
     width: 90%;
@@ -204,6 +207,7 @@
 }
 @media screen and (max-width: 640px) {
   .hero__container {
+    overflow: hidden;
     display: flex;
     flex-direction: column;
     overflow-y: hidden;
@@ -226,6 +230,9 @@
     animation-duration: 2s;
   }
   .hero__content {
+    margin-top: 0;
+    margin-bottom: 0;
+    text-align: start;
     position: relative;
     z-index: 1;
     animation-name: fadeIn;
