@@ -34,8 +34,8 @@ export const useCreateEvent = () => {
       },
       body: formData,
     });
-    const json = await response.json();
-    console.log(json);
+    // const json = await response.json();
+    // console.log(json);
     if (!response.ok) {
       setIsLoading(false);
       setIsError(true);
