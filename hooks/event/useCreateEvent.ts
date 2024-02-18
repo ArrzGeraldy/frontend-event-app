@@ -30,6 +30,7 @@ export const useCreateEvent = () => {
     const response = await fetch(`${process.env.NEXT_PUBLIC_API}/event`, {
       method: "POST",
       headers: {
+        "Content-Type": "application/json",
         Authorization: `Bearer ${user}`,
       },
       body: formData,
