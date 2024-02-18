@@ -13,7 +13,7 @@ const HeroContent = () => {
         of resources, simplify your event planning process with our curated list
         of top event organizing tools and tips.
       </p>
-      <Link href={"#event"}>
+      <Link href={"#explore"}>
         <Button className="w-full lg:w-fit rounded-full mt-2 py-6 lg:py-4">
           Explore now.
         </Button>

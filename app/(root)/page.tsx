@@ -14,12 +14,12 @@ const Home = () => {
   return (
     <>
       <Hero />
-      <section className="w-5/6 mx-auto py-20">
+      <section className="w-5/6 mx-auto" id="explore">
         <h2 className="text-3xl font-semibold mb-8">Explore Events</h2>
-        <Carousel>
-          <CarouselContent>
-            <CarouselItem>
-              <div className="flex gap-4 justify-evenly items-center">
+        <div className="px-4 md:px-0">
+          <Carousel>
+            <CarouselContent>
+              <CarouselItem className="grid grid-cols-1 lg:grid-cols-3 gap-4">
                 <Link
                   href={"/categories/music"}
                   style={{
@@ -30,7 +30,7 @@ const Home = () => {
             ),
             url("/assets/images/category/music-img.jpg")`,
                   }}
-                  className="w-[391px] h-72 rounded-md flex justify-center items-end py-8 category-card"
+                  className="w-full h-60 rounded-md flex justify-center items-end py-8 category-card"
                 >
                   <p className="text-3xl text-white">Music</p>
                 </Link>
@@ -44,7 +44,7 @@ const Home = () => {
             ),
             url("/assets/images/category/programming-img.jpg")`,
                   }}
-                  className="w-[391px] h-72 rounded-md flex justify-center items-end py-8 category-card"
+                  className="w-full h-60 rounded-md flex justify-center items-end py-8 category-card"
                 >
                   <p className="text-3xl text-white">Programming</p>
                 </Link>
@@ -58,14 +58,12 @@ const Home = () => {
             ),
             url("/assets/images/category/technology-img.jpg")`,
                   }}
-                  className="w-[391px] h-72 rounded-md flex justify-center items-end py-8 category-card"
+                  className="w-full h-60 rounded-md flex justify-center items-end py-8 category-card"
                 >
                   <p className="text-3xl text-white">Technology</p>
                 </Link>
-              </div>
-            </CarouselItem>
-            <CarouselItem>
-              <div className="flex gap-4  items-center">
+              </CarouselItem>
+              <CarouselItem className="grid grid-cols-1 lg:grid-cols-3 gap-4">
                 <Link
                   href={"/categories/festival"}
                   style={{
@@ -76,7 +74,7 @@ const Home = () => {
             ),
             url("/assets/images/category/festival-img.jpg")`,
                   }}
-                  className="w-[391px] h-72 rounded-md flex justify-center items-end py-8 category-card"
+                  className="w-full h-60 rounded-md flex justify-center items-end py-8 category-card"
                 >
                   <p className="text-3xl text-white">Festival</p>
                 </Link>
@@ -90,16 +88,16 @@ const Home = () => {
             ),
             url("/assets/images/category/education-img.jpg")`,
                   }}
-                  className="w-[391px] h-72 rounded-md flex justify-center items-end py-8 category-card"
+                  className="w-full h-60 rounded-md flex justify-center items-end py-8 category-card"
                 >
                   <p className="text-3xl text-white">Education</p>
                 </Link>
-              </div>
-            </CarouselItem>
-          </CarouselContent>
-          <CarouselPrevious />
-          <CarouselNext />
-        </Carousel>
+              </CarouselItem>
+            </CarouselContent>
+            <CarouselPrevious />
+            <CarouselNext />
+          </Carousel>
+        </div>
       </section>
       <EventContainer />
     </>
