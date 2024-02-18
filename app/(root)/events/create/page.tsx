@@ -8,7 +8,7 @@ import InputSelect from "@/components/ui/shared/InputSelect";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
-import { useCreateEvent } from "@/hooks/useCreateEvent";
+import { useCreateEvent } from "@/hooks/event/useCreateEvent";
 import { redirect } from "next/navigation";
 import InputFile from "@/components/CreateEvent/InputFile";
 

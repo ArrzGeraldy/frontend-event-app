@@ -166,6 +166,17 @@
   opacity: 80%;
 }
 
+.category-card {
+  background-size: 135%;
+  background-repeat: no-repeat;
+  background-position: center;
+  transition: background-size 250ms linear;
+}
+
+.category-card:hover {
+  background-size: 140%;
+}
+
 /* responsive */
 
 @media screen and (max-width: 1024px) {
@@ -246,8 +257,8 @@
   }
 }
 
-/* responsive */
-/* end */
+/* end responsive */
+/* end  mycss*/
 
 @layer base {
   :root {

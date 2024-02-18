@@ -3,46 +3,34 @@ import AsideItems from "@/components/DashboardContent/Aside/AsideItems";
 import EventsLIstUser from "@/components/DashboardContent/EventsLIstUser";
 import Profile from "@/components/DashboardContent/Profile";
 import { useAuthContext } from "@/hooks/useAuthContext";
+import { useFetchDetail } from "@/hooks/user/useFetchDetail";
+import { useFetchEventsUser } from "@/hooks/user/useFetchEventsUser";
 import { redirect } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const page = () => {
   const [active, setActive] = useState("profile");
-  const [eventsUser, setEventsUser] = useState();
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
+
   const [isLoading, setIsLoading] = useState(false);
-  const [isdeleted, setIsdeleted] = useState("");
   const { user } = useAuthContext();
 
-  const fetchUserEvents = async () => {
-    const user = localStorage.getItem("token");
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API}/user/events`, {
-      method: "GET",
-      headers: {
-        authorization: `Bearer ${user}`,
-      },
-    });
-    const json = await response.json();
-    setEventsUser(json.data);
-  };
-
-  const detailUser = async () => {
-    const user = localStorage.getItem("token");
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API}/user`, {
-      method: "GET",
-      headers: { Authorization: `Bearer ${user}` },
-    });
-
-    const { data } = await response.json();
-    setUsername(data.username);
-    setEmail(data.email);
-  };
+  const {
+    eventsUser,
+    isLoading: loadingEventUser,
+    isdeleted,
+    setIsdeleted,
+  } = useFetchEventsUser();
+  const {
+    detailUser,
+    username,
+    email,
+    isLoading: detailLoading,
+    setUsername,
+  } = useFetchDetail();
 
   useEffect(() => {
     if (!user) redirect("/");
     detailUser();
-    fetchUserEvents();
   }, [isdeleted, user]);
   return (
     <section className="bg-gray-50 flex gap-4">
@@ -56,6 +44,7 @@ const page = () => {
             <Profile
               username={username}
               email={email}
+              detailLoading={detailLoading}
               setUsername={setUsername}
             />
           )}
@@ -63,6 +52,7 @@ const page = () => {
             <EventsLIstUser
               eventsUser={eventsUser}
               isLoading={isLoading}
+              loadingEventUser={loadingEventUser}
               setIsLoading={setIsLoading}
               isdeleted={isdeleted}
               setIsdeleted={setIsdeleted}

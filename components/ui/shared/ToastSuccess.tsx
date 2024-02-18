@@ -9,9 +9,8 @@ const ToastSuccess = ({ setIsDeleted }: Idelete) => {
   const [close, setClose] = useState(false);
   const handleClose = () => {
     setClose(true);
-    setTimeout(() => {
-      setIsDeleted("");
-    }, 600);
+
+    setIsDeleted("");
   };
   return (
     <>
