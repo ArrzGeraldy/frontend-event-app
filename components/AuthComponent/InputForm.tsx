@@ -16,7 +16,7 @@ const InputForm = ({
         <label htmlFor="email">Email</label>
         <input
           type="email"
-          name=""
+          name="email"
           id="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
@@ -25,10 +25,10 @@ const InputForm = ({
         />
       </div>
       <div className="flex flex-col gap-2">
-        <label htmlFor="Password">Password</label>
+        <label htmlFor="password">Password</label>
         <input
           type="password"
-          name=""
+          name="passord"
           id="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}

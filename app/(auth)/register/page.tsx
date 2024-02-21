@@ -17,6 +17,11 @@ const page = () => {
   const register = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
     await signup(username, email, password);
+    if (succesSignUp) {
+      setUsername("");
+      setEmail("");
+      setPassword("");
+    }
   };
 
   if (user) redirect("/");
@@ -63,7 +68,9 @@ const page = () => {
               password={password}
               setPassword={setPassword}
             />
-            <Button disabled={isLoading}>Sign up</Button>
+            <Button disabled={isLoading}>
+              {isLoading ? "Loading..." : "Sign up"}
+            </Button>
           </form>
           <div className="flex justify-center mt-8">
             <p className="text-sm text-gray-500">

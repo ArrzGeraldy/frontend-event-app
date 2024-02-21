@@ -69,8 +69,6 @@ const page = () => {
     setEndDate("");
     setEndTime("");
     setFree(false);
-    // Atau jika Anda ingin menggabungkan beberapa setState menjadi satu:
-    // setFormData({ title: "", desc: "", tempImage: "", ... });
   };
 
   useEffect(() => {

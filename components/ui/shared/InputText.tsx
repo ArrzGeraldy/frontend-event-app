@@ -8,7 +8,7 @@ interface InputProps {
 const InputText = ({ label, value, setValue, placeholder }: InputProps) => {
   return (
     <div className="flex flex-col gap-2">
-      <label>{label}</label>
+      <label htmlFor="title">{label}</label>
       <input
         type="title"
         id="title"

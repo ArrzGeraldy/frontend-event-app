@@ -49,7 +49,6 @@ const EventsLIstUser = ({
       setIsdeleted("error");
     }
     if (json.type) {
-      console.log(json);
       setIsdeleted("delete");
     }
     setIsLoading(false);

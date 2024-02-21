@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { PiEraser, PiTrashSimple, PiWarningCircle, PiX } from "react-icons/pi";
+import { PiEraser, PiX } from "react-icons/pi";
 interface Idelete {
   setIsDeleted: React.Dispatch<React.SetStateAction<string>>;
 }
